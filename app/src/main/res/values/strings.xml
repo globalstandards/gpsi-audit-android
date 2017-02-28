@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Global Audit</string>
+
+    <!--Login and register -->
+    <string name="name">Nombre</string>
+    <string name="lastname">Apellidos</string>
+    <string name="email_address">Email</string>
+    <string name="psw">Contraseña</string>
+    <string name="login">INICIAR SESIÓN</string>
+    <string name="newAcount">CREAR CUENTA</string>
+    <string name="title_activity_register">Register</string>
+
+    <string name="terms_conditions">Al crear su cuenta, usted acepta los Términos y condiciones de GlobalSTD</string>
+
+
+    <string name="standards">Estándares</string>
+
+
+    <!--  menu -->
+    <string name="menu_home">Inicio</string>
+    <string name="menu_standards">@string/standards</string>
+    <string name="menu_my_checklist">Mis CheckList</string>
+    <string name="menu_historical">Historial</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_globaltv">Global TV</string>
+    <string name="menu_settings">Configuración</string>
+
+    <string name="menu_logout">Cerrar sesión</string>
+
+
+    <!-- list void -->
+    <string name="void_audit">No se encuentran auditorias, por el momento</string>
 </resources>
