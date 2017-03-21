@@ -1,56 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group  android:id="@+id/grp1"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:checked="true"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/menu_home" />
+    <item   android:id="@+id/grpCertification" android:title="Certificación">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_contracts"
+                    android:icon="@mipmap/ic_launcher"
+                    android:title="@string/menu_contracts" />
 
-        <item
-            android:id="@+id/nav_standard"
-            android:checked="true"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/menu_standards" />
+                <item
+                    android:id="@+id/nav_certification_audits"
+                    android:icon="@mipmap/ic_launcher"
+                    android:title="@string/menu_audits" />
+            </group>
+        </menu>
+    </item>
 
-        <item
-            android:id="@+id/nav_notices"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/menu_my_checklist" />
+    <item   android:id="@+id/grpSupplier" android:title="Evaluación de proveedores">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_suppliers"
+                    android:icon="@mipmap/ic_launcher"
+                    android:title="@string/menu_suppliers" />
 
-        <item
-            android:id="@+id/nav_awards"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/menu_historical" />
-        
-        <item
-            android:id="@+id/nav_profile"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/menu_profile" />
+                <item
+                    android:id="@+id/nav_audits"
+                    android:icon="@mipmap/ic_launcher"
+                    android:title="@string/menu_audits" />
 
-        <item
-            android:id="@+id/nav_my_bets"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/menu_globaltv" />
-
-
-
-    </group>
+                <item
+                    android:id="@+id/nav_complaints"
+                    android:icon="@mipmap/ic_launcher"
+                    android:title="@string/menu_complaints" />
+            </group>
+        </menu>
+    </item>
 
     <item   android:id="@+id/grp2" android:title="Configuración">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_preferences"
+                    android:id="@+id/nav_users"
                     android:icon="@mipmap/ic_launcher"
-                    android:title="@string/menu_globaltv" />
-
-                <item
-                    android:id="@+id/nav_my_match"
-                    android:icon="@mipmap/ic_launcher"
-                    android:title="@string/menu_globaltv" />
+                    android:title="@string/menu_users" />
             </group>
         </menu>
     </item>
@@ -61,11 +55,12 @@
             android:id="@+id/nav_wintowin"
             android:icon="@mipmap/ic_wintowin_intence"
             android:title="@string/menu_wintowin_intense" />
--->
-        <item
+                  <item
             android:id="@+id/nav_setting"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/menu_settings" />
+
+-->
 
         <item
             android:id="@+id/nav_logout"

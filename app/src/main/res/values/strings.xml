@@ -23,11 +23,32 @@
     <string name="menu_historical">Historial</string>
     <string name="menu_profile">Perfil</string>
     <string name="menu_globaltv">Global TV</string>
+
+    <string name="menu_users">Usuarios</string>
+    <string name="menu_contracts">Contratos</string>
+    <string name="menu_suppliers">Proveedores</string>
+    <string name="menu_audits">Auditorias</string>
+    <string name="menu_complaints">Quejas</string>
+
     <string name="menu_settings">Configuración</string>
 
     <string name="menu_logout">Cerrar sesión</string>
 
+    <string-array name="date_alignement">
+        <item>"Top"</item>
+        <item>"Center"</item>
+        <item>"Bottom"</item>
+    </string-array>
+    <integer-array name="date_alignement_values">
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+    </integer-array>
+
 
     <!-- list void -->
     <string name="void_audit">No se encuentran auditorias, por el momento</string>
+
+    <string name="accept">Aceptar</string>
+    <string name="notes">Notas</string>
 </resources>

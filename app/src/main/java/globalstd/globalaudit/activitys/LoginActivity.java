@@ -48,8 +48,6 @@ public class LoginActivity   extends AppCompatActivity {
                 //Intent i = new Intent( getApplicationContext(), MainEmuledActivity.class);
                 //Intent i = new Intent( getApplicationContext(), DirectoryFragment.class);
                 startActivity( i );
-                finish();
-
             }
 
 

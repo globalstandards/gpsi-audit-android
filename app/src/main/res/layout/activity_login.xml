@@ -45,6 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_address"
+                        android:inputType="textEmailAddress"
                         android:textColorHint="@color/et_divider_not_focused"
                         />
 
@@ -129,13 +130,13 @@
 
                     <RelativeLayout
 
-                    android:id="@+id/btnNewAcount"
-                    android:clickable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@drawable/ripple_button"
+                        android:id="@+id/btnNewAcount"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@drawable/ripple_button"
                         android:layout_marginTop="15dp">
 
                     <TextView

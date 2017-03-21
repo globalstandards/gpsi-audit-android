@@ -696,6 +696,7 @@
 
     <color name="md_gray_std_logo">#f2f2f2</color>
     <color name="md_gray_bg_stadistics">#e5e5e5</color>
+    <color name="md_gray_backg_menu">#ebe9e9</color>
     <color name="md_gray_text_stadistics">#949494</color>
 
 

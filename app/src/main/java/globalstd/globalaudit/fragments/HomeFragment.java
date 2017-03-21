@@ -59,8 +59,8 @@ public class HomeFragment  extends Fragment {
 
         if(typeUser==0){
             TabAdapter adapter = new TabAdapter(getChildFragmentManager());
-            adapter.addFrag(new ListAuditFragment(), 1, "Certificaciónes");//Auditoria de certificacion
-            adapter.addFrag(new ListAuditFragment(), 2,  "Provedores");//
+            adapter.addFrag(new ListAuditCertificationFragment(), 1, "Certificaciónes");//Auditoria de certificacion
+            adapter.addFrag(new ListAuditSuppliersFragment(), 2,  "Provedores");//
 
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);

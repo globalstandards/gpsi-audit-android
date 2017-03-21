@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp" >
+
+            <RelativeLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp" >
+
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_photoPlaceHolder1"
+                    android:layout_alignEnd="@+id/img_photoPlaceHolder1"
+                    android:layout_alignLeft="@+id/img_photoPlaceHolder1"
+                    android:layout_alignRight="@+id/img_photoPlaceHolder1"
+                    android:layout_alignStart="@+id/img_photoPlaceHolder1"
+                    android:layout_alignTop="@+id/img_photoPlaceHolder1"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_addphoto"
+                    android:clickable="true"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/img_photoPlaceHolder1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/bg_avatar_transparent" />
+
+                <Button
+                    android:id="@+id/btn_delete"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_alignEnd="@id/img_profile"
+                    android:layout_alignRight="@id/img_profile"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/btn_deletephoto"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+            <!-- Nombre -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre del usuario"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/et_divider_not_focused"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Email -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/et_divider_not_focused"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Role -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Puesto"
+                android:textSize="12dp"
+                android:maxLines="1" android:layout_marginTop="20dp"/>
+            <RelativeLayout
+                android:id="@+id/role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerRole"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Puesto"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    />
+            </RelativeLayout>
+
+            <!-- Teléfono -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/txtPhone"
+                    android:inputType="phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:padding="10dp"
+                    android:hint="Telefono"
+                    android:textColorHint="#bbbbbb"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Celular -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/celphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/txtCelphone"
+                    android:inputType="phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:padding="10dp"
+                    android:hint="Celular"
+                    android:textColorHint="#bbbbbb"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Lenguage -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lenguaje"
+                android:textSize="12dp"
+                android:maxLines="1" android:layout_marginTop="20dp"/>
+            <RelativeLayout
+                android:id="@+id/lenguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerLenguage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Lenguaje"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    />
+            </RelativeLayout>
+
+            <!-- Div Direccion -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dirección"
+                android:maxLines="2" android:layout_marginTop="20dp"
+                style="?android:attr/listSeparatorTextViewStyle"/>
+
+            <!-- Pais -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pais"
+                android:textSize="12dp"
+                android:maxLines="1" android:layout_marginTop="20dp"/>
+            <RelativeLayout
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerCountry"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Pais"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    />
+            </RelativeLayout>
+
+            <!-- Estado -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estado"
+                android:textSize="12dp"
+                android:maxLines="1" android:layout_marginTop="20dp"/>
+            <RelativeLayout
+                android:id="@+id/state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Spinner
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerState"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Estados"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    />
+            </RelativeLayout>
+
+            <!-- Ciudad -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/txtCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:hint="Ciudad"
+                    android:textColorHint="#bbbbbb"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Calle 1 -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/street1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/txtStreet1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:hint="Calle 1"
+                    android:textColorHint="#bbbbbb"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Calle 2 -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/street2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/txtStreet2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:hint="Calle 2"
+                    android:textColorHint="#bbbbbb"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- CP -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/txtCp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:hint="C.P."
+                    android:textColorHint="#bbbbbb"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Btn -->
+            <RelativeLayout
+
+                android:id="@+id/btnCreate"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_button"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/lblCreate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Añadir"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="20sp"
+
+                    android:gravity="center_horizontal"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

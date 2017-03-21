@@ -16,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import globalstd.globalaudit.R;
+import globalstd.globalaudit.fragments.AddSupplierFragment;
 import globalstd.globalaudit.fragments.HomeFragment;
+import globalstd.globalaudit.fragments.ListSupplierFragment;
+import globalstd.globalaudit.fragments.ListUsersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -107,25 +110,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         Fragment fragment;
-/*
-        if (id == R.id.btnShoppingCart) {
-            showShoppingCart();
-            return true;
-        }
 
-        //noinspection SimplifiableIfStatement
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        */
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+
         }
+
         return super.onOptionsItemSelected(item);
     }
+
+    private void showCars(){}
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -181,6 +177,18 @@ public class MainActivity extends AppCompatActivity {
             mTitle = getString(R.string.menu_my_checklist);
             TAG = TAG_HOME;
             //fragment = new NewsFragment();
+        }
+
+        else if (opcSelected.equals(getString(R.string.menu_suppliers))) {
+            mTitle = getString(R.string.menu_suppliers);
+            TAG = "tag_suppliers";
+            fragment = new ListSupplierFragment();
+        }
+
+        else if (opcSelected.equals(getString(R.string.menu_users))) {
+            mTitle = getString(R.string.menu_users);
+            TAG = "tag_users";
+            fragment = new ListUsersFragment();
         }
 
 
