@@ -58,14 +58,13 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 hideKeyboard();
 
                 /*if (!validateEmail(txtEmail.getText().toString())) {
                     txtEmail.setError(getString(R.string.invalidad_email));
                 } else*/
                 if (!validatePassword(txtPsw.getText().toString())) {
-//                    txtPsw.setError(getString(R.string.enter_psw));
+                    txtPsw.setError(getString(R.string.enter_psw));
                 } else {
                     txtEmail.setEnabled(false);
                     txtPsw.setEnabled(false);
@@ -118,10 +117,16 @@ public class LoginActivity extends BaseActivity {
         if (event.error != null) {
             switch (event.error.getCode()) {
                 case GlobalAuditException.INVALID_CREDENTIALS:
-//                    Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
-//                    snackbar.show();
-//                    desbloqueo();
-                break;
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                    break;
+
+                case GlobalAuditException.INTERNET_ERROR:
+                    break;
+
+                case GlobalAuditException.SERVER_ERROR:
+                    break;
             }
         }
         //Sucess
