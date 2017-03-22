@@ -66,11 +66,13 @@ public class LoginActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onSignInEvent(SignInEvent event) {
+        GlobalAuditException error = null;
         try {
             authService.signIn(event.email, event.pass);
         } catch(GlobalAuditException e) {
-            eventBus.post(new SignInResponseEvent(e));
+            error = e;
         }
+        eventBus.post(new SignInResponseEvent(error));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
