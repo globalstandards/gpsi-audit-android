@@ -29,7 +29,9 @@ import globalstd.globalaudit.services.AuthService;
  */
 
 public class LoginActivity extends BaseActivity {
-    @Inject AuthService authService;
+    @Inject
+    AuthService authService;
+
     private CoordinatorLayout coordinatorLayout;
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
@@ -61,8 +63,9 @@ public class LoginActivity extends BaseActivity {
 
                 /*if (!validateEmail(txtEmail.getText().toString())) {
                     txtEmail.setError(getString(R.string.invalidad_email));
-                } else*/ if (!validatePassword(txtPsw.getText().toString())) {
-                    txtPsw.setError(getString(R.string.enter_psw));
+                } else*/
+                if (!validatePassword(txtPsw.getText().toString())) {
+//                    txtPsw.setError(getString(R.string.enter_psw));
                 } else {
                     txtEmail.setEnabled(false);
                     txtPsw.setEnabled(false);
@@ -115,9 +118,9 @@ public class LoginActivity extends BaseActivity {
         if (event.error != null) {
             switch (event.error.getCode()) {
                 case GlobalAuditException.INVALID_CREDENTIALS:
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    desbloqueo();
+//                    Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                    desbloqueo();
                 break;
             }
         }

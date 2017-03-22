@@ -16,18 +16,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v4.app.FragmentTransaction;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import globalstd.globalaudit.GlobalAuditException;
 import globalstd.globalaudit.R;
 import globalstd.globalaudit.adapters.UserAdapter;
 import globalstd.globalaudit.objects.User;
+import globalstd.globalaudit.services.AuthService;
 
 /**
  * Created by Gabriel Vazquez on 14/03/2017.
  */
 
-public class ListUsersFragment  extends Fragment {
+public class ListUsersFragment extends BaseFragment {
+    @Inject
+    AuthService authService;
+
     View rootView;
     private RelativeLayout voidList;
     private List<User> listUsers;
@@ -138,6 +148,13 @@ public class ListUsersFragment  extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.menu_main, menu);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.eventBus.post(new GetUsersEvent());
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -148,6 +165,31 @@ public class ListUsersFragment  extends Fragment {
         super.onDestroyView();
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onGetUsersEvent(GetUsersEvent event) {
+        GlobalAuditException error = null;
+        try {
+            this.authService.getUsers(0, 20);
+        } catch (GlobalAuditException e) {
+            error = e;
+        }
+        this.eventBus.post(new GetUsersResponseEvent(error));
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetUsersResponseEvent(GetUsersEvent event) {
+
+    }
+
+
+    private static class GetUsersEvent {}
+
+    private static class GetUsersResponseEvent {
+        public GlobalAuditException error;
+
+        public GetUsersResponseEvent(GlobalAuditException error) {
+            this.error = error;
+        }
+    }
 }
 
