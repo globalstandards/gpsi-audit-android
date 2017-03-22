@@ -2,13 +2,11 @@ package globalstd.globalaudit.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -71,7 +69,14 @@ public class LoginActivity extends BaseActivity {
         try {
             authService.signIn(event.email, event.pass);
         } catch(GlobalAuditException e) {
-            switch (e.getCode()) {
+            eventBus.post(new SignInResponseEvent(e));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSignInResponseEvent(SignInResponseEvent event) {
+        if (event.error != null) {
+            switch (event.error.getCode()) {
                 case GlobalAuditException.INVALID_CREDENTIALS:
                     break;
             }
@@ -85,6 +90,14 @@ public class LoginActivity extends BaseActivity {
         public SignInEvent(String email, String pass) {
             this.email = email;
             this.pass = pass;
+        }
+    }
+
+    private static class SignInResponseEvent {
+        public GlobalAuditException error;
+
+        public SignInResponseEvent(GlobalAuditException error) {
+            this.error = error;
         }
     }
 }
