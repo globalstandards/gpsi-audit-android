@@ -20,6 +20,12 @@ public class GlobalAuditException extends RuntimeException {
      */
     public static final int INTERNET_ERROR = 3;
 
+    /**
+     * Email actualmente existe.
+     */
+    public static final int EMAIL_ALREADY_EXIST = 4;
+
+
     private int code;
 
     public GlobalAuditException(int code) {

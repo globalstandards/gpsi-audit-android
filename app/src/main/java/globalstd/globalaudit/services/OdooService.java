@@ -14,11 +14,16 @@ import retrofit2.http.PUT;
 
 public interface OdooService {
     @Headers({
-            "Content-Type: application/json",
-            "Accept: application/json"
+            "Content-Type: application/json"
     })
     @POST("web/session/authenticate")
     Call<String> authenticate(@Body String params);
+
+    @Headers({
+            "Content-Type: application/json"
+    })
+    @POST("ga/api/signup")
+    Call<Void> signUp(@Body String params);
 
     @GET("ga/api/logout")
     Call<Void> logout();

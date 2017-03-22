@@ -12,6 +12,7 @@ import globalstd.globalaudit.Constants;
 import globalstd.globalaudit.GlobalAuditException;
 import globalstd.globalaudit.models.User;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
@@ -63,8 +64,29 @@ public class AuthService {
         }
     }
 
-    public void signUp() {
+    public void signUp(String company, String username, String email, String password) {
+        JSONObject body = new JSONObject();
+        JSONObject params = new JSONObject();
+        try {
+            params.put("company", company);
+            params.put("username", username);
+            params.put("email", email);
+            params.put("password", password);
 
+            body.put("jsonrpc", "2.0");
+            body.put("params", params);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Response<Void> response = odooService.signUp(body.toString()).execute();
+            if (response.code() == 400) {
+                throw new GlobalAuditException(GlobalAuditException.EMAIL_ALREADY_EXIST);
+            }
+        } catch (IOException e) {
+            throw new GlobalAuditException(GlobalAuditException.INTERNET_ERROR);
+        }
     }
 
     public void logout() {
