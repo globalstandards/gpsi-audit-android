@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import globalstd.globalaudit.Constants;
+import globalstd.globalaudit.GlobalAuditException;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -32,7 +34,7 @@ public class AuthService {
         }
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.99.100:8079/")
+                .baseUrl(Constants.GLOBAL_AUDIT_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         OdooService odooService = retrofit.create(OdooService.class);
@@ -40,7 +42,11 @@ public class AuthService {
         try {
             String response = odooService.authenticate(body.toString()).execute().body();
             JSONObject json = new JSONObject(response);
-            json.getJSONObject("result");
+            JSONObject resultPart = json.getJSONObject("result");
+            if (resultPart.isNull("company_id")) {
+                throw new GlobalAuditException(GlobalAuditException.INVALID_CREDENTIALS);
+            }
+            this.sessionId = resultPart.getString("session_id");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
