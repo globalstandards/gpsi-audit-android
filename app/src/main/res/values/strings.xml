@@ -55,6 +55,10 @@
 
     <!-- alerts-->
     <string name="invalid_credentials">Credenciales inválidas, intente de nuevo</string>
+    <string name="internet_error">Internet error, verifique su conexión</string>
+    <string name="server_error">Credenciales inválidas, intente de nuevo</string>
+
+
     <string name="invalidad_email">Verique su cuenta de email</string>
     <string name="invalidad_psw">Cerrar sesión</string>
     <string name="enter_psw">ingrese su contraseña</string>

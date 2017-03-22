@@ -41,6 +41,7 @@ public class LoginActivity extends BaseActivity {
     TextInputEditText txtPsw;
     RelativeLayout btnLogin;
     RelativeLayout btnNewAcount;
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,16 +116,22 @@ public class LoginActivity extends BaseActivity {
         if (event.error != null) {
             switch (event.error.getCode()) {
                 case GlobalAuditException.INVALID_CREDENTIALS:
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
                     snackbar.show();
                     desbloqueo();
                     break;
 
                 case GlobalAuditException.INTERNET_ERROR:
-                    break;
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.internet_error), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                break;
 
                 case GlobalAuditException.SERVER_ERROR:
-                    break;
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.server_error), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                break;
             }
         }
         //Sucess
