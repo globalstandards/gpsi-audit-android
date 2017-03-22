@@ -5,5 +5,5 @@ package globalstd.globalaudit;
  */
 
 public interface Constants {
-    public String GLOBAL_AUDIT_URL = "http://192.168.99.100:8079/";
+    public String GLOBAL_AUDIT_URL = "http://192.168.1.207:8079/";
 }

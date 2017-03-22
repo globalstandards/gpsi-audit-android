@@ -51,4 +51,14 @@
 
     <string name="accept">Aceptar</string>
     <string name="notes">Notas</string>
+
+
+    <!-- alerts-->
+    <string name="invalid_credentials">Credenciales inválidas, intente de nuevo</string>
+    <string name="invalidad_email">Verique su cuenta de email</string>
+    <string name="invalidad_psw">Cerrar sesión</string>
+    <string name="enter_psw">ingrese su contraseña</string>
+
+    <string name="enter_name">ingrese su nombre</string>
+    <string name="enter_lastname">ingrese sus apellidos</string>
 </resources>
