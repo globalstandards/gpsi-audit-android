@@ -39,7 +39,7 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventBus.post(new SignInEvent(txtPsw.getText().toString(), txtEmail.getText().toString()));
+                eventBus.post(new SignInEvent(txtEmail.getText().toString(), txtPsw.getText().toString()));
                 // showMainActivity();
             }
         });
