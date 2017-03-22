@@ -15,13 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
+
 import globalstd.globalaudit.R;
 import globalstd.globalaudit.fragments.AddSupplierFragment;
 import globalstd.globalaudit.fragments.HomeFragment;
 import globalstd.globalaudit.fragments.ListSupplierFragment;
 import globalstd.globalaudit.fragments.ListUsersFragment;
+import globalstd.globalaudit.services.AuthService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+    @Inject
+    AuthService authService;
 
     private DrawerLayout drawerLayout; //Instancia del drawer
     private String drawerTitle; //Titulo inicial del drawer 1D1D1D
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
     }*/
+
     private void back(Fragment fragment, String TAG) {
         //zoom de retorno
         FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
@@ -96,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.replace(R.id.main_content, fragment, TAG);
         fragmentManager.commit();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -105,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
+    
     // btn's actionBar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -253,12 +261,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
-
-
     /*
     * 1= Staff
     * 2= Patrocinador
@@ -271,9 +273,6 @@ public class MainActivity extends AppCompatActivity {
            //navigationView.inflateMenu(R.menu.nav_menu_out);
         }
     }
-
-
-
 
     public void menssage(String menssage) {
         Snackbar.make(navigationView, menssage, Snackbar.LENGTH_LONG).setAction("Action", null).show();
