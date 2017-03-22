@@ -88,8 +88,6 @@ public class LoginActivity extends BaseActivity {
                 //Intent i = new Intent( getApplicationContext(), DirectoryFragment.class);
                 startActivity( i );
             }
-
-
         });
     }
 

@@ -1,12 +1,16 @@
 package globalstd.globalaudit.services;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import globalstd.globalaudit.Constants;
 import globalstd.globalaudit.GlobalAuditException;
+import globalstd.globalaudit.models.User;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -17,6 +21,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class AuthService {
     private String sessionId;
+    private String cookie;
     private OdooService odooService;
 
     public AuthService() {
@@ -50,6 +55,7 @@ public class AuthService {
                 throw new GlobalAuditException(GlobalAuditException.INVALID_CREDENTIALS);
             }
             this.sessionId = resultPart.getString("session_id");
+            this.cookie = "session_id=" + this.sessionId + ";";
         } catch (IOException e) {
             throw new GlobalAuditException(GlobalAuditException.INTERNET_ERROR);
         } catch (JSONException e) {
@@ -62,24 +68,17 @@ public class AuthService {
     }
 
     public void logout() {
-
+        this.sessionId = null;
+        this.cookie = null;
     }
 
     /**
-     * Regresa un diccionario con la lista de usuarios asociados al usuario autenticado.
-     * El formato del diccionario es similar al siguiente:<br/>
-     * <pre>
-     * {
-     *     "length": XX,      // número de elementos en la lista
-     *     "records": [],     // registros
-     * }
-     * </pre>
      *
      * @param limit Máximo número de registros a regresar.
      * @param offset Número de registros a omitir.
-     * @return Diccionario con lista de registros solicitados.
+     * @return Lista de registros solicitados.
      */
-    public JSONObject getUsers(int limit, int offset) {
+    public List<User> getUsers(int limit, int offset) {
         JSONObject body = new JSONObject();
         JSONObject params = new JSONObject();
         try {
@@ -92,15 +91,32 @@ public class AuthService {
             e.printStackTrace();
         }
 
-        JSONObject result = null;
+        ArrayList<User> users = new ArrayList<>();
         try {
-            JSONObject response = new JSONObject(odooService.authenticate(body.toString()).execute().body());
-            result = response.getJSONObject("result");
+            JSONObject response = new JSONObject(odooService.getUsers(this.cookie, body.toString()).execute().body());
+            JSONObject result = response.getJSONObject("result");
+            JSONArray records = response.getJSONArray("records");
+            for (int i = 0; i < records.length(); ++i) {
+                JSONObject item = records.getJSONObject(i);
+                User user = new User();
+                user.id = item.getInt("id");
+                user.name = item.getString("name");
+                user.street1 = item.getString("street1");
+                users.add(user);
+            }
         } catch (IOException e) {
             throw new GlobalAuditException(GlobalAuditException.INTERNET_ERROR);
         } catch (JSONException e) {
             throw new GlobalAuditException(GlobalAuditException.SERVER_ERROR);
         }
-        return result;
+        return users;
+    }
+
+    public void createUser(User user) {
+
+    }
+
+    public void updateUser(User user) {
+
     }
 }
