@@ -68,6 +68,12 @@ public class AuthService {
     }
 
     public void logout() {
+        try {
+            odooService.logout().execute();
+        } catch (IOException e) {
+            throw new GlobalAuditException(GlobalAuditException.INTERNET_ERROR);
+        }
+
         this.sessionId = null;
         this.cookie = null;
     }

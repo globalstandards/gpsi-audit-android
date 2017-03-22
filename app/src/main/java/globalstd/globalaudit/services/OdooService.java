@@ -20,7 +20,7 @@ public interface OdooService {
     @POST("web/session/authenticate")
     Call<String> authenticate(@Body String params);
 
-    @POST("ga/api/logout")
+    @GET("ga/api/logout")
     Call<Void> logout();
 
     @Headers({
