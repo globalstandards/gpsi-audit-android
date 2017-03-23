@@ -303,12 +303,10 @@ public class MainActivity extends BaseActivity implements ICallConfirmLogOut {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new ConfirmLogOut(objConfirm).show(fragmentManager, "ConfirmLogOut");
     }
-    public void logOut(){
-        //eventBus.post(new SignInEvent(txtEmail.getText().toString(), txtPsw.getText().toString()));
-    }
+
     @Override
     public void onPossitiveBtnClick() {
-        logOut();
+        onLogOut();
     }
 
     @Override
