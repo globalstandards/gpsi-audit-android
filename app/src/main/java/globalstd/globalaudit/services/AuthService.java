@@ -64,6 +64,16 @@ public class AuthService {
         }
     }
 
+    /**
+     *
+     * @param company Nombre de la compañia
+     * @param username Nombre del usuario
+     * @param email Email del usuario
+     * @param password Contraseña
+     *
+     * @throws GlobalAuditException con código de error EMAIL_ALREADY_EXISTS
+     * @throws GlobalAuditException con código de error COMPANY_NAME_ALREADY_EXISTS
+     */
     public void signUp(String company, String username, String email, String password) {
         JSONObject body = new JSONObject();
         JSONObject params = new JSONObject();
