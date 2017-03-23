@@ -23,7 +23,17 @@ public class GlobalAuditException extends RuntimeException {
     /**
      * Email actualmente existe.
      */
-    public static final int EMAIL_ALREADY_EXIST = 4;
+    public static final int EMAIL_ALREADY_EXISTS = 4;
+
+    /**
+     * Nombre de la compañia actualmente existe.
+     */
+    public static final int COMPANY_NAME_ALREADY_EXISTS = 5;
+
+    /**
+     * La sesión a caducado.
+     */
+    public static final int SESSION_EXPIRED = 50;
 
 
     private int code;

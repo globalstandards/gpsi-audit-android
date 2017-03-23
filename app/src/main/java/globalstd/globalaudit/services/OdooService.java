@@ -23,7 +23,7 @@ public interface OdooService {
             "Content-Type: application/json"
     })
     @POST("ga/api/signup")
-    Call<Void> signUp(@Body String params);
+    Call<String> signUp(@Body String params);
 
     @GET("ga/api/logout")
     Call<Void> logout();

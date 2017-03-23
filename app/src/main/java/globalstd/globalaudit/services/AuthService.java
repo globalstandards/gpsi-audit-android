@@ -80,12 +80,19 @@ public class AuthService {
         }
 
         try {
-            Response<Void> response = odooService.signUp(body.toString()).execute();
-            if (response.code() == 400) {
-                throw new GlobalAuditException(GlobalAuditException.EMAIL_ALREADY_EXIST);
+            Response<String> response = odooService.signUp(body.toString()).execute();
+            body = new JSONObject(response.body());
+            JSONObject result = body.getJSONObject("result");
+            if (result.has("error")) {
+                JSONObject error = result.getJSONObject("error");
+                int code = error.getInt("code");
+                if (code == 1) throw new GlobalAuditException(GlobalAuditException.EMAIL_ALREADY_EXISTS);
+                else if (code == 2) throw new GlobalAuditException(GlobalAuditException.COMPANY_NAME_ALREADY_EXISTS);
             }
         } catch (IOException e) {
             throw new GlobalAuditException(GlobalAuditException.INTERNET_ERROR);
+        } catch (JSONException e) {
+            throw new GlobalAuditException(GlobalAuditException.SERVER_ERROR);
         }
     }
 
