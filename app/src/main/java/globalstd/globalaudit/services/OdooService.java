@@ -7,6 +7,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 /**
  * Created by software on 21/03/17.
@@ -33,6 +34,12 @@ public interface OdooService {
     })
     @POST("ga/api/settings/users")
     Call<String> getUsers(@Header("Cookie") String cookie, @Body String params);
+
+    @Headers({
+            "Content-Type: application/json"
+    })
+    @POST("ga/api/settings/users/{id}")
+    Call<String> updateUser(@Path("id") int userId, @Header("Cookie") String cookie, @Body String params);
 
     @POST("ga/api/settings/users")
     Call<String> createUser(@Body String params);

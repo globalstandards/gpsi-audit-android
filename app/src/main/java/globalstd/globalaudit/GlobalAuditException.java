@@ -31,6 +31,11 @@ public class GlobalAuditException extends RuntimeException {
     public static final int COMPANY_NAME_ALREADY_EXISTS = 5;
 
     /**
+     * Registro no encontrado.
+     */
+    public static final int RECORD_NOT_FOUND = 6;
+
+    /**
      * La sesión a caducado.
      */
     public static final int SESSION_EXPIRED = 99;

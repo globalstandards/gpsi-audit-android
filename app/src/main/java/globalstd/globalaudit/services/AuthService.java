@@ -13,6 +13,7 @@ import java.util.List;
 import globalstd.globalaudit.Constants;
 import globalstd.globalaudit.GlobalAuditException;
 
+import globalstd.globalaudit.objects.Address;
 import globalstd.globalaudit.objects.User;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -55,7 +56,7 @@ public class AuthService {
             body.put("method", "call");
             body.put("params", params);
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new GlobalAuditException(GlobalAuditException.UNEXPECTED_ERROR);
         }
 
         try {
@@ -96,7 +97,7 @@ public class AuthService {
             body.put("jsonrpc", "2.0");
             body.put("params", params);
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new GlobalAuditException(GlobalAuditException.UNEXPECTED_ERROR);
         }
 
         try {
@@ -144,7 +145,7 @@ public class AuthService {
             body.put("jsonrpc", "2.0");
             body.put("params", params);
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new GlobalAuditException(GlobalAuditException.UNEXPECTED_ERROR);
         }
 
         ArrayList<User> users = new ArrayList<>();
@@ -157,12 +158,20 @@ public class AuthService {
 
                 byte[] imageSmall = Base64.decode(item.getString("image_small"), Base64.NO_WRAP);
 
+                Address address = new Address(
+                        item.get("street") instanceof String ? item.getString("street") : null,
+                        item.get("street2") instanceof String ? item.getString("street") : null,
+                        item.get("city") instanceof String ? item.getString("city") : null,
+                        item.get("state_id") instanceof JSONArray ? item.getJSONArray("state_id").getString(1) : null,
+                        item.get("zip") instanceof String ? item.getString("zip") : null,
+                        item.get("country_id") instanceof JSONArray ? item.getJSONArray("country_id").getString(1) : null
+                );
                 User user = new User(
                         item.getInt("id"),
                         item.getString("name"),
                         item.getString("login"),
                         imageSmall,
-                        null,
+                        address,
                         "Role",
                         "Language");
                 users.add(user);
@@ -176,10 +185,47 @@ public class AuthService {
     }
 
     public void createUser(User user) {
-
+        throw new UnsupportedOperationException();
     }
 
+    /**
+     *
+     * @param user
+     */
     public void updateUser(User user) {
+        JSONObject body = new JSONObject();
+        JSONObject params = new JSONObject();
+        try {
+            params.put("name", user.getName());
+            params.put("login", user.getEmail());
+            params.put("street", user.getEmail());
+            params.put("street2", user.getEmail());
+            params.put("city", user.getEmail());
+            params.put("state", user.getEmail());
+            params.put("zip", user.getEmail());
+            params.put("country", user.getEmail());
+            params.put("phone", user.getEmail());
+            params.put("mobile", user.getEmail());
 
+            body.put("jsonrpc", "2.0");
+            body.put("params", params);
+        } catch (JSONException e) {
+            throw new GlobalAuditException(GlobalAuditException.UNEXPECTED_ERROR);
+        }
+
+        try {
+            Response<String> response = odooService.updateUser(user.getId(), this.cookie, body.toString()).execute();
+            body = new JSONObject(response.body());
+            JSONObject result = body.getJSONObject("result");
+            if (result.has("error")) {
+                JSONObject error = result.getJSONObject("error");
+                int code = error.getInt("code");
+                if (code == 3) throw new GlobalAuditException(GlobalAuditException.RECORD_NOT_FOUND);
+            }
+        } catch (IOException e) {
+            throw new GlobalAuditException(GlobalAuditException.INTERNET_ERROR);
+        } catch (JSONException e) {
+            throw new GlobalAuditException(GlobalAuditException.SERVER_ERROR);
+        }
     }
 }
