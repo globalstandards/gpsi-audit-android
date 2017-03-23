@@ -33,7 +33,12 @@ public class GlobalAuditException extends RuntimeException {
     /**
      * La sesión a caducado.
      */
-    public static final int SESSION_EXPIRED = 50;
+    public static final int SESSION_EXPIRED = 99;
+
+    /**
+     * Error desconocido.
+     */
+    public static final int UNEXPECTED_ERROR = 100;
 
 
     private int code;

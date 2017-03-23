@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -38,4 +40,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
         eventBus.unregister(this);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDummyEvent(DummyEvent event) {
+    }
+
+    private static class DummyEvent {}
 }
