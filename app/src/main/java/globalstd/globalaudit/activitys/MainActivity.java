@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -25,7 +24,6 @@ import globalstd.globalaudit.GlobalAuditException;
 import globalstd.globalaudit.R;
 import globalstd.globalaudit.dialogs.ConfirmDialog;
 import globalstd.globalaudit.dialogs.ConfirmLogOut;
-import globalstd.globalaudit.fragments.AddSupplierFragment;
 import globalstd.globalaudit.fragments.HomeFragment;
 import globalstd.globalaudit.fragments.ListSupplierFragment;
 import globalstd.globalaudit.fragments.ListUsersFragment;
@@ -34,8 +32,6 @@ import globalstd.globalaudit.utils.ICallConfirmLogOut;
 
 import org.greenrobot.eventbus.ThreadMode;
 import org.greenrobot.eventbus.Subscribe;
-
-import static globalstd.globalaudit.R.id.coordinatorLayout;
 
 public class MainActivity extends BaseActivity implements ICallConfirmLogOut {
     @Inject
@@ -306,7 +302,7 @@ public class MainActivity extends BaseActivity implements ICallConfirmLogOut {
 
     @Override
     public void onPossitiveBtnClick() {
-        onLogOut();
+        this.eventBus.post(new LogoutEvent());
     }
 
     @Override
@@ -316,24 +312,18 @@ public class MainActivity extends BaseActivity implements ICallConfirmLogOut {
 
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onLogOut() {
+    public void onLogout(LogoutEvent event) {
         GlobalAuditException error = null;
         try {
             authService.logout();
         } catch(GlobalAuditException e) {
             error = e;
         }
-        eventBus.post(new LogOutResponseEvent(error));
+        eventBus.post(new LogoutResponseEvent(error));
     }
 
-    private static class LogOutResponseEvent {
-        public GlobalAuditException error;
-        public LogOutResponseEvent(GlobalAuditException error) {
-            this.error = error;
-        }
-    }
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSignInResponseEvent(LogOutResponseEvent event) {
+    public void onLogoutResponseEvent(LogoutResponseEvent event) {
         if (event.error != null) {
             switch (event.error.getCode()) {
                 case GlobalAuditException.INVALID_CREDENTIALS:
@@ -365,6 +355,15 @@ public class MainActivity extends BaseActivity implements ICallConfirmLogOut {
         //Intent i = new Intent( getApplicationContext(), DirectoryFragment.class);
         startActivity( i );
         finish();
+    }
+
+    private static class LogoutEvent {}
+
+    private static class LogoutResponseEvent {
+        public GlobalAuditException error;
+        public LogoutResponseEvent(GlobalAuditException error) {
+            this.error = error;
+        }
     }
 }
 
