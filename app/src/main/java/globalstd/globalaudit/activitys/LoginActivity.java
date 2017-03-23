@@ -152,7 +152,6 @@ public class LoginActivity extends BaseActivity {
 
     private static class SignInResponseEvent {
         public GlobalAuditException error;
-
         public SignInResponseEvent(GlobalAuditException error) {
             this.error = error;
         }
@@ -166,6 +165,7 @@ public class LoginActivity extends BaseActivity {
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     public boolean validateEmail(String email) {
         matcher = pattern.matcher(email);
         return matcher.matches();

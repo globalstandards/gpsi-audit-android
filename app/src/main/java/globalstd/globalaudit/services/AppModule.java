@@ -7,12 +7,18 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import globalstd.globalaudit.activitys.LoginActivity;
+import globalstd.globalaudit.activitys.MainActivity;
+import globalstd.globalaudit.activitys.RegisterActivity;
 
 /**
  * Created by software on 21/03/17.
  */
 
-@Module(injects = LoginActivity.class)
+@Module(injects = {
+        LoginActivity.class,
+        RegisterActivity.class,
+        MainActivity.class
+})
 public class AppModule {
     @Provides @Singleton
     EventBus provideEventBus() {

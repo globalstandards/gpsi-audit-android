@@ -58,6 +58,10 @@
     <string name="internet_error">Internet error, verifique su conexión</string>
     <string name="server_error">Credenciales inválidas, intente de nuevo</string>
 
+    <string name="email_alreay_exists">Esta cuenta de email, ya se encuentra ya mismo registradao</string>
+    <string name="company_name_already_exists">Esa nombre de compañia, ya se encuentra ya mismo registrada</string>
+
+
 
     <string name="invalidad_email">Verique su cuenta de email</string>
     <string name="invalidad_psw">Cerrar sesión</string>

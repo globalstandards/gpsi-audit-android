@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -17,26 +18,38 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
+import globalstd.globalaudit.GlobalAuditException;
 import globalstd.globalaudit.R;
+import globalstd.globalaudit.services.AuthService;
 
 /**
  * Created by Gabriel Vazquez on 28/02/2017.
  */
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity  extends BaseActivity  {
+    @Inject
+    AuthService authService;
+
     private CoordinatorLayout coordinatorLayout;
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
     private Matcher matcher;
 
     TextInputEditText txtName;
-    TextInputEditText txtLastname;
+    TextInputEditText txtCompany;
     TextInputEditText txtEmail;
     TextInputEditText txtPsw;
     RelativeLayout btnCreateAcount;
+
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +71,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnCreateAcount = (RelativeLayout) findViewById(R.id.btnCreateAcount);
         txtName = (TextInputEditText) findViewById(R.id.txtName);
-        txtLastname = (TextInputEditText) findViewById(R.id.txtLastname);
+        txtCompany = (TextInputEditText) findViewById(R.id.txtCompany);
 
         txtEmail = (TextInputEditText) findViewById(R.id.txtEmail);
         txtPsw = (TextInputEditText) findViewById(R.id.txtPsw);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
-
 
 
         btnCreateAcount.setOnClickListener(new View.OnClickListener() {
@@ -79,15 +90,15 @@ public class RegisterActivity extends AppCompatActivity {
                     txtName.setError(getString(R.string.enter_name));
                 }
 
-                else if (!validatePassword(txtLastname.getText().toString())) {
-                    txtLastname.setError(getString(R.string.enter_lastname));
+                else if (!validatePassword(txtCompany.getText().toString())) {
+                    txtCompany.setError(getString(R.string.enter_lastname));
                 }
 
                 else if (!validatePassword(txtPsw.getText().toString())) {
                     txtPsw.setError(getString(R.string.enter_psw));
                 } else {
                     bloqueo();
-                    //eventBus.post(new LoginActivity.SignInEvent(txtEmail.getText().toString(), txtPsw.getText().toString()));
+                    eventBus.post(new RegisterActivity.SignUpEvent(txtCompany.getText().toString(),txtName.getText().toString(), txtEmail.getText().toString(),  txtPsw.getText().toString()));
                 }
                 //Intent i = new Intent( getApplicationContext(), NewAcountActivity.class);
                 //Intent i = new Intent( getApplicationContext(), MainEmuledActivity.class);
@@ -121,18 +132,105 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void bloqueo() {
         txtName.setEnabled(false);
-        txtLastname.setEnabled(false);
+        txtCompany.setEnabled(false);
         txtEmail.setEnabled(false);
         txtPsw.setEnabled(false);
         btnCreateAcount.setEnabled(false);
     }
-
     public void desbloqueo() {
         txtName.setEnabled(true);
-        txtLastname.setEnabled(true);
+        txtCompany.setEnabled(true);
         txtEmail.setEnabled(true);
         txtPsw.setEnabled(true);
         btnCreateAcount.setEnabled(true);
     }
+    private void showMainActivity() {
+        Intent i = new Intent( getApplicationContext(), MainActivity.class);
+        //Intent i = new Intent( getApplicationContext(), MainEmuledActivity.class);
+        //Intent i = new Intent( getApplicationContext(), DirectoryFragment.class);
+        startActivity( i );
+        finish();
+    }
+
+
+
+
+    private static class SignUpEvent {
+        public String company;
+        public String username;
+
+        public String email;
+        public String password;
+
+        public SignUpEvent(String company, String username, String email, String password) {
+            this.company = company;
+            this.username = username;
+
+            this.email = email;
+            this.password = password;
+        }
+
+    }
+    private static class SignUpResponseEvent {
+        public GlobalAuditException error;
+        public SignUpResponseEvent(GlobalAuditException error) {
+            this.error = error;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onSignUpEvent(SignUpEvent event) {
+        GlobalAuditException error = null;
+        try {
+            authService.signUp(event.company, event.username, event.email, event.password);
+        } catch(GlobalAuditException e) {
+            error = e;
+        }
+        eventBus.post(new SignUpResponseEvent(error));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void SignUpResponseEvent(SignUpResponseEvent event) {
+        if (event.error != null) {
+            switch (event.error.getCode()) {
+                case GlobalAuditException.INVALID_CREDENTIALS:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                    break;
+
+                case GlobalAuditException.INTERNET_ERROR:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.internet_error), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                    break;
+
+                case GlobalAuditException.SERVER_ERROR:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.server_error), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                    break;
+
+                case GlobalAuditException.EMAIL_ALREADY_EXISTS:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.email_alreay_exists), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                    break;
+
+                case GlobalAuditException.COMPANY_NAME_ALREADY_EXISTS:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.company_name_already_exists), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    desbloqueo();
+                    break;
+
+            }
+        }
+        //Sucess
+        else{
+            showMainActivity();
+        }
+    }
+
+
 
 }

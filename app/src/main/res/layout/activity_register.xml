@@ -61,21 +61,21 @@
 
             </RelativeLayout>
 
-            <!-- LastName-->
+            <!-- Company-->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/lastname"
+                    android:id="@+id/company"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/txtLastname"
+                        android:id="@+id/txtCompany"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/lastname"
+                        android:hint="Compañia"
                         android:textColorHint="@color/et_divider_not_focused"
                         android:inputType="textPersonName"
                         />
