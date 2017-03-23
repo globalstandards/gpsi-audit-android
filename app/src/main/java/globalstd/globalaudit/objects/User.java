@@ -8,13 +8,16 @@ public class User {
     private int id;
     private String name;
     private String email;
+    private byte[] imageSmall;
+    private Address address;
     private String role;
     private String lenguaje;
 
-    public User(int id, String name, String email, String role, String lenguaje) {
+    public User(int id, String name, String email, byte[] imageSmall, Address address, String role, String lenguaje) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.imageSmall = imageSmall;
         this.role = role;
         this.lenguaje = lenguaje;
     }
@@ -22,6 +25,7 @@ public class User {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -29,6 +33,7 @@ public class User {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -36,13 +41,19 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public byte[] getImageSmall() {
+        return imageSmall;
     }
 
     public String getRole() {
         return role;
     }
+
     public void setRole(String role) {
         this.role = role;
     }
@@ -50,6 +61,7 @@ public class User {
     public String getLenguaje() {
         return lenguaje;
     }
+
     public void setLenguaje(String lenguaje) {
         this.lenguaje = lenguaje;
     }

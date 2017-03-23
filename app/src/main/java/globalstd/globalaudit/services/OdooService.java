@@ -31,7 +31,7 @@ public interface OdooService {
     @Headers({
             "Content-Type: application/json"
     })
-    @GET("ga/api/settings/users")
+    @POST("ga/api/settings/users")
     Call<String> getUsers(@Header("Cookie") String cookie, @Body String params);
 
     @POST("ga/api/settings/users")

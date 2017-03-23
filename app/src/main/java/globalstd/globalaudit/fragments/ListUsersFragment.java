@@ -90,13 +90,17 @@ public class ListUsersFragment extends BaseFragment {
     private void initializeData(){
         listUsers = new ArrayList<>();
 
-        listUsers.add( new User(1, "Paola Padilla", "contacto@coca.com", "Administrativa", "Frances"));
-        listUsers.add( new User(1, "Gloria Ortis", "ventas@coca.com", "Ventas", "Ingles"));
-        listUsers.add( new User(1, "Jumena Guzman", "stock@c0ca.com", "Cobranz", "Español"));
+//        listUsers.add( new User(1, "Paola Padilla", "contacto@coca.com", null, "Administrativa", "Frances"));
+//        listUsers.add( new User(1, "Gloria Ortis", "ventas@coca.com", null, "Ventas", "Ingles"));
+//        listUsers.add( new User(1, "Jumena Guzman", "stock@c0ca.com", null, "Cobranz", "Español"));
 
     }
     private void initializeAdapter(){
-        if(listUsers.size()==0){
+        adapter = new UserAdapter(context, listUsers);
+        list.setAdapter(adapter);
+        adapter.setOnItemClickListener(onItemClickListener);
+
+        if(listUsers.size() == 0){
             list.setVisibility(View.GONE);
 
             voidList = (RelativeLayout) rootView.findViewById(R.id.voidList);
@@ -112,12 +116,9 @@ public class ListUsersFragment extends BaseFragment {
 
         }else {
             list.setVisibility(View.VISIBLE);
-
-            adapter = new UserAdapter(context, listUsers);
-            list.setAdapter(adapter);
-            adapter.setOnItemClickListener(onItemClickListener);
         }
     }
+
     UserAdapter.OnItemClickListener onItemClickListener = new UserAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
@@ -160,6 +161,7 @@ public class ListUsersFragment extends BaseFragment {
         super.onResume();
         //  ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_fragment_contacts));
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -167,27 +169,36 @@ public class ListUsersFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onGetUsersEvent(GetUsersEvent event) {
+        List<User> users = null;
         GlobalAuditException error = null;
         try {
-            this.authService.getUsers(0, 20);
+            users = this.authService.getUsers(0, 20);
         } catch (GlobalAuditException e) {
             error = e;
         }
-        this.eventBus.post(new GetUsersResponseEvent(error));
+        this.eventBus.post(new GetUsersResponseEvent(users, error));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGetUsersResponseEvent(GetUsersEvent event) {
+    public void onGetUsersResponseEvent(GetUsersResponseEvent event) {
+        if (event.error == null) {
+            this.listUsers.clear();
+            this.listUsers.addAll(event.users);
+            this.adapter.notifyDataSetChanged();
 
+            this.list.setVisibility(View.VISIBLE);
+        }
     }
 
 
     private static class GetUsersEvent {}
 
     private static class GetUsersResponseEvent {
+        public List<User> users;
         public GlobalAuditException error;
 
-        public GetUsersResponseEvent(GlobalAuditException error) {
+        public GetUsersResponseEvent(List<User> users, GlobalAuditException error) {
+            this.users = users;
             this.error = error;
         }
     }

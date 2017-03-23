@@ -1,5 +1,7 @@
 package globalstd.globalaudit.services;
 
+import android.util.Base64;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +12,8 @@ import java.util.List;
 
 import globalstd.globalaudit.Constants;
 import globalstd.globalaudit.GlobalAuditException;
-import globalstd.globalaudit.models.User;
+
+import globalstd.globalaudit.objects.User;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -33,6 +36,13 @@ public class AuthService {
         this.odooService = retrofit.create(OdooService.class);
     }
 
+    /**
+     *
+     * @param email Email del usuario
+     * @param password Contraseña del usuario
+     *
+     * @throws GlobalAuditException con código de error INVALID_CREDENTIALS
+     */
     public void signIn(String email, String password) {
         JSONObject body = new JSONObject();
         JSONObject params = new JSONObject();
@@ -121,6 +131,7 @@ public class AuthService {
      *
      * @param limit Máximo número de registros a regresar.
      * @param offset Número de registros a omitir.
+     *
      * @return Lista de registros solicitados.
      */
     public List<User> getUsers(int limit, int offset) {
@@ -140,13 +151,20 @@ public class AuthService {
         try {
             JSONObject response = new JSONObject(odooService.getUsers(this.cookie, body.toString()).execute().body());
             JSONObject result = response.getJSONObject("result");
-            JSONArray records = response.getJSONArray("records");
+            JSONArray records = result.getJSONArray("records");
             for (int i = 0; i < records.length(); ++i) {
                 JSONObject item = records.getJSONObject(i);
-                User user = new User();
-                user.id = item.getInt("id");
-                user.name = item.getString("name");
-                user.street1 = item.getString("street1");
+
+                byte[] imageSmall = Base64.decode(item.getString("image_small"), Base64.NO_WRAP);
+
+                User user = new User(
+                        item.getInt("id"),
+                        item.getString("name"),
+                        item.getString("login"),
+                        imageSmall,
+                        null,
+                        "Role",
+                        "Language");
                 users.add(user);
             }
         } catch (IOException e) {

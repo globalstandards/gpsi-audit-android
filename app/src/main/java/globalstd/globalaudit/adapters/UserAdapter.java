@@ -2,6 +2,8 @@ package globalstd.globalaudit.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import globalstd.globalaudit.R;
 import globalstd.globalaudit.objects.Supplier;
 import globalstd.globalaudit.objects.User;
@@ -23,7 +28,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     Context context;
     List<User> listUsers;
     UserAdapter.OnItemClickListener onItemClickListener;
-
 
     public UserAdapter(Context context) {
         this.context = context;
@@ -43,15 +47,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return new UserAdapter.ViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(final UserAdapter.ViewHolder holder, final int position) {
+        Glide.with(this.context)
+                .load(listUsers.get(position).getImageSmall())
+                .asBitmap()
+                .into(holder.imgProfile);
         holder.txtName.setText(listUsers.get(position).getName());
         holder.txtEmail.setText(listUsers.get(position).getEmail());
         holder.txtRole.setText(listUsers.get(position).getRole());
         holder.txtLenguaje.setText(listUsers.get(position).getLenguaje());
     }
-
 
     @Override
     public int getItemCount() {
@@ -63,10 +69,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return res.getString(res.getIdentifier(name, "string", context.getPackageName()));
     }
 
-
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CardView cv;
+        public CircleImageView imgProfile;
         public TextView txtName;
         public TextView txtEmail;
         public TextView txtRole;
@@ -76,6 +81,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         public ViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cv);
+            imgProfile = (CircleImageView) itemView.findViewById(R.id.imgProfile);
             txtName = (TextView) itemView.findViewById(R.id.txtName);
             txtEmail = (TextView) itemView.findViewById(R.id.txtEmail);
             txtRole = (TextView) itemView.findViewById(R.id.txtRole);

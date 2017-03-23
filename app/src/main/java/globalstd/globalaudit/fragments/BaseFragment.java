@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -37,4 +39,10 @@ public class BaseFragment extends Fragment {
         super.onStop();
         eventBus.unregister(this);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDummyEvent(DummyEvent event) {
+    }
+
+    private static class DummyEvent {}
 }
