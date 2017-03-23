@@ -69,4 +69,33 @@
 
     <string name="enter_name">ingrese su nombre</string>
     <string name="enter_lastname">ingrese sus apellidos</string>
+
+
+
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirmation_alert">Alerta de Confirmación</string>
+    <string name="message_evaluation">¿Se encuentra seguro con finalizar su auto-evaluación?\n Si acepta se mostrará su resultado y ya no podrá editarse.</string>
+    <string name="message_historical">En este momento se encuentra una evaluación pendiente\n¿Desea continuarla o iniciar una nueva?</string>
+    <string name="message_exit">¿Desea salir de la aplicación?</string>
+    <string name="message_logout">¿Desea cerrar sesión?</string>
+
+    <string name="yes">Si</string>
+    <string name="continues">Continuar</string>
+    <string name="create_new">Crear nueva</string>
+    <string name="alert">Alert</string>
+    <string name="info">Info</string>
+    <string name="custom">Custom</string>
+    <string name="sticky">Sticky</string>
+    <string name="bottom">Show at bottom of screen</string>
+    <string name="remove">Remove</string>
+    <string name="cancel_all">Cancel All</string>
+    <string name="high">High</string>
+    <string name="normal">Normal</string>
+    <string name="low">Low</string>
+    <string name="show_appmsg">Show AppMsg!</string>
+    <string name="style">Style</string>
+    <string name="priority">Priority</string>
+    <string name="your_message_here">Your message here</string>
+    <string name="custom_parent">Custom parent</string>
 </resources>

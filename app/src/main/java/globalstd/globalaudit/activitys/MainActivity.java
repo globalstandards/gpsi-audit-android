@@ -1,10 +1,13 @@
 package globalstd.globalaudit.activitys;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,16 +18,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 import javax.inject.Inject;
 
+import globalstd.globalaudit.GlobalAuditException;
 import globalstd.globalaudit.R;
+import globalstd.globalaudit.dialogs.ConfirmDialog;
+import globalstd.globalaudit.dialogs.ConfirmLogOut;
 import globalstd.globalaudit.fragments.AddSupplierFragment;
 import globalstd.globalaudit.fragments.HomeFragment;
 import globalstd.globalaudit.fragments.ListSupplierFragment;
 import globalstd.globalaudit.fragments.ListUsersFragment;
 import globalstd.globalaudit.services.AuthService;
+import globalstd.globalaudit.utils.ICallConfirmLogOut;
 
-public class MainActivity extends BaseActivity {
+import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.Subscribe;
+
+import static globalstd.globalaudit.R.id.coordinatorLayout;
+
+public class MainActivity extends BaseActivity implements ICallConfirmLogOut {
     @Inject
     AuthService authService;
 
@@ -33,6 +46,9 @@ public class MainActivity extends BaseActivity {
     private String ACTIONBAR_COLOR="#272727";
     public static CharSequence mTitle;
     public NavigationView navigationView;
+
+    Snackbar snackbar;
+    private CoordinatorLayout coordinatorLayout;
 
     // TAGs
     private static final String TAG_HOME = "tag_home";
@@ -43,7 +59,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         setToolbar(); // Setear Toolbar como action bar
-
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -217,6 +233,10 @@ public class MainActivity extends BaseActivity {
             */
         }
 
+        else if (opcSelected.equals(getString(R.string.menu_logout))) {
+            confirmLogOut();
+        }
+
 
         else{
             fragment = new HomeFragment();
@@ -276,6 +296,77 @@ public class MainActivity extends BaseActivity {
 
     public void menssage(String menssage) {
         Snackbar.make(navigationView, menssage, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
+
+    private void confirmLogOut(){
+        ConfirmDialog objConfirm = new ConfirmDialog(getResources().getString(R.string.confirm), getResources().getString(R.string.message_logout),getResources().getString(R.string.yes), "No");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        new ConfirmLogOut(objConfirm).show(fragmentManager, "ConfirmLogOut");
+    }
+    public void logOut(){
+        //eventBus.post(new SignInEvent(txtEmail.getText().toString(), txtPsw.getText().toString()));
+    }
+    @Override
+    public void onPossitiveBtnClick() {
+        logOut();
+    }
+
+    @Override
+    public void onNegativeBtnClick() {
+
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onLogOut() {
+        GlobalAuditException error = null;
+        try {
+            authService.logout();
+        } catch(GlobalAuditException e) {
+            error = e;
+        }
+        eventBus.post(new LogOutResponseEvent(error));
+    }
+
+    private static class LogOutResponseEvent {
+        public GlobalAuditException error;
+        public LogOutResponseEvent(GlobalAuditException error) {
+            this.error = error;
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSignInResponseEvent(LogOutResponseEvent event) {
+        if (event.error != null) {
+            switch (event.error.getCode()) {
+                case GlobalAuditException.INVALID_CREDENTIALS:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.invalid_credentials), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                    break;
+
+                case GlobalAuditException.INTERNET_ERROR:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.internet_error), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    break;
+
+                case GlobalAuditException.SERVER_ERROR:
+                    snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.server_error), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    break;
+            }
+        }
+        //Sucess
+        else{
+            showLogin();
+        }
+    }
+
+    private void showLogin() {
+        Intent i = new Intent( getApplicationContext(), LoginActivity.class);
+        //Intent i = new Intent( getApplicationContext(), MainEmuledActivity.class);
+        //Intent i = new Intent( getApplicationContext(), DirectoryFragment.class);
+        startActivity( i );
+        finish();
     }
 }
 
