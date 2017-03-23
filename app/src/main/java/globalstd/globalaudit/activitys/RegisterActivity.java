@@ -98,7 +98,8 @@ public class RegisterActivity  extends BaseActivity  {
                     txtPsw.setError(getString(R.string.enter_psw));
                 } else {
                     bloqueo();
-                    eventBus.post(new RegisterActivity.SignUpEvent(txtCompany.getText().toString(),txtName.getText().toString(), txtEmail.getText().toString(),  txtPsw.getText().toString()));
+                    eventBus.post(new SignUpEvent(txtCompany.getText().toString(),txtName.getText().toString(),
+                            txtEmail.getText().toString(),  txtPsw.getText().toString()));
                 }
                 //Intent i = new Intent( getApplicationContext(), NewAcountActivity.class);
                 //Intent i = new Intent( getApplicationContext(), MainEmuledActivity.class);
@@ -120,10 +121,12 @@ public class RegisterActivity  extends BaseActivity  {
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     public boolean validateEmail(String email) {
         matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
     public boolean validatePassword(String password) {
         return password.length() > 2;
     }
@@ -135,6 +138,7 @@ public class RegisterActivity  extends BaseActivity  {
         txtPsw.setEnabled(false);
         btnCreateAcount.setEnabled(false);
     }
+
     public void desbloqueo() {
         txtName.setEnabled(true);
         txtCompany.setEnabled(true);
@@ -142,38 +146,13 @@ public class RegisterActivity  extends BaseActivity  {
         txtPsw.setEnabled(true);
         btnCreateAcount.setEnabled(true);
     }
+
     private void showMainActivity() {
         Intent i = new Intent( getApplicationContext(), MainActivity.class);
         //Intent i = new Intent( getApplicationContext(), MainEmuledActivity.class);
         //Intent i = new Intent( getApplicationContext(), DirectoryFragment.class);
         startActivity( i );
         finish();
-    }
-
-
-
-
-    private static class SignUpEvent {
-        public String company;
-        public String username;
-
-        public String email;
-        public String password;
-
-        public SignUpEvent(String company, String username, String email, String password) {
-            this.company = company;
-            this.username = username;
-
-            this.email = email;
-            this.password = password;
-        }
-
-    }
-    private static class SignUpResponseEvent {
-        public GlobalAuditException error;
-        public SignUpResponseEvent(GlobalAuditException error) {
-            this.error = error;
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -229,6 +208,27 @@ public class RegisterActivity  extends BaseActivity  {
         }
     }
 
+    private static class SignUpEvent {
+        public String company;
+        public String username;
 
+        public String email;
+        public String password;
+
+        public SignUpEvent(String company, String username, String email, String password) {
+            this.company = company;
+            this.username = username;
+
+            this.email = email;
+            this.password = password;
+        }
+
+    }
+    private static class SignUpResponseEvent {
+        public GlobalAuditException error;
+        public SignUpResponseEvent(GlobalAuditException error) {
+            this.error = error;
+        }
+    }
 
 }
